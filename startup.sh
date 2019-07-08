@@ -168,3 +168,11 @@ aws --version
 # sudo add-apt-repository ppa:fingerprint/fingerprint-gui
 # sudo apt update
 # sudo apt install libbsapi policykit-1-fingerprint-gui fingerprint-gui -y
+
+echo 'installing teamviewer'
+wget https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
+sudo apt install -y ./teamviewer_amd64.deb
+
+echo 'installing vnc-viewer'
+sudo apt-get install -y --no-install-recommends ubuntu-desktop gnome-panel gnome-settings-daemon metacity nautilus gnome-terminal
+sudo apt-get install vnc4server -y 

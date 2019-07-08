@@ -142,11 +142,29 @@ cat <<EOF >>  ~/.config/terminator/config
     scrollback_infinite = True
 EOF
 
+echo 'installing docker' 
+sudo apt-get remove docker docker-engine docker.io
+sudo apt install docker.io -y
+sudo systemctl start docker
+sudo systemctl enable docker
+docker --version
 
-echo 'configuring fingerprint'
-sudo apt install -y fprintd libpam-fprintd -y
-sudo pam-auth-update
+chmod 777 /var/run/docker.sock
+docker run hello-world
 
-sudo add-apt-repository ppa:fingerprint/fingerprint-gui
-sudo apt update
-sudo apt install libbsapi policykit-1-fingerprint-gui fingerprint-gui -y
+echo 'installing docker-compose' 
+sudo curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+
+echo 'installing aws-cli' 
+sudo apt-get install awscli -y
+aws --version
+
+# echo 'configuring fingerprint'
+# sudo apt install -y fprintd libpam-fprintd -y
+# sudo pam-auth-update
+
+# sudo add-apt-repository ppa:fingerprint/fingerprint-gui
+# sudo apt update
+# sudo apt install libbsapi policykit-1-fingerprint-gui fingerprint-gui -y

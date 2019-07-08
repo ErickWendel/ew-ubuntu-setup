@@ -3,8 +3,21 @@ sudo apt-get update
 echo 'installing curl' 
 sudo apt install curl -y
 
+sudo apt-get install xclip -y
+
+cat <<EOF >>  ~/.profile
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+EOF
+source ~/.profile
+
 echo 'installing git' 
 sudo apt install git -y
+git config --global user.email "erick.workspace@gmail.com"
+git config --global user.name "erickwendel"
+ssh-keygen -t rsa -C "erick.workspace@gmail.com"
+cat ~/.ssh/id_rsa.pub | pbcopy
+echo 'YOU MUST PAST YOUR SSH KERY on your git-repo' 
 
 echo 'installing vim'
 sudo apt install vim -y
@@ -17,6 +30,17 @@ sudo apt-get install apt-transport-https -y
 sudo apt-get update
 sudo apt-get install code -y # or code-insiders
 
+echo 'installing extensions'
+code --install-extension dbaeumer.vscode-eslint
+code --install-extension christian-kohler.path-intellisense
+code --install-extension dbaeumer.vscode-eslint
+code --install-extension dracula-theme.theme-dracula
+code --install-extension esbenp.prettier-vscode
+code --install-extension foxundermoon.shell-format
+code --install-extension pmneo.tsimporter
+code --install-extension waderyan.gitblame
+code --install-extension yzhang.markdown-all-in-one
+
 echo 'installing spotify' 
 snap install spotify
 
@@ -26,7 +50,8 @@ sudo dpkg -i google-chrome-stable_current_amd64.deb
 
 echo 'installing nvm' 
 sudo apt-get install build-essential libssl-dev -y
-curl https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+curl https://raw.githubusercontent.com/creatioalias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'nix/nvm/v0.34.0/install.sh | bash
 source ~/.profile
 nvm --version
 nvm install 12
@@ -46,7 +71,14 @@ source ~/.zshrc
 
 echo 'installing meet franz' 
 wget https://github.com/meetfranz/franz/releases/download/v5.1.0/franz_5.1.0_amd64.deb -O franz.deb
-sudo dpkg -i franz.deb
+sudo dpkg -i franz.debchristian-kohler.path-intellisense
+dbaeumer.vscode-eslint
+dracula-theme.theme-dracula
+esbenp.prettier-vscode
+foxundermoon.shell-format
+pmneo.tsimporter
+waderyan.gitblame
+yzhang.markdown-all-in-one
 sudo apt-get install -y -f 
 
 echo 'installing slack' 
@@ -103,7 +135,6 @@ cat <<EOF >>  ~/.config/terminator/config
     palette = "#000000:#ff5555:#50fa7b:#f1fa8c:#bd93f9:#ff79c6:#8be9fd:#bbbbbb:#555555:#ff5555:#50fa7b:#f1fa8c:#bd93f9:#ff79c6:#8be9fd:#ffffff"
     scrollback_infinite = True
 EOF
-
 
 
 

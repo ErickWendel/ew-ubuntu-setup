@@ -68,6 +68,12 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosugges
 echo "source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
 source ~/.zshrc
 
+echo 'installing theme'
+sudo apt install fonts-firacode -y
+wget -O ~/.oh-my-zsh/themes/node.zsh-theme https://raw.githubusercontent.com/skuridin/oh-my-zsh-node-theme/master/node.zsh-theme 
+sed -i 's/.*ZSH_THEME=.*/ZSH_THEME="node"/g' ~/.zshrc
+zsh
+
 
 echo 'installing meet franz' 
 wget https://github.com/meetfranz/franz/releases/download/v5.1.0/franz_5.1.0_amd64.deb -O franz.deb
@@ -137,4 +143,10 @@ cat <<EOF >>  ~/.config/terminator/config
 EOF
 
 
+echo 'configuring fingerprint'
+sudo apt install -y fprintd libpam-fprintd -y
+sudo pam-auth-update
 
+sudo add-apt-repository ppa:fingerprint/fingerprint-gui
+sudo apt update
+sudo apt install libbsapi policykit-1-fingerprint-gui fingerprint-gui -y

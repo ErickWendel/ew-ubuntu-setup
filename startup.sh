@@ -3,7 +3,6 @@ sudo apt-get update
 echo 'installing curl' 
 sudo apt install curl -y
 
-
 echo 'enabling workspaces for both screens' 
 gsettings set org.gnome.mutter workspaces-only-on-primary false
 
@@ -18,14 +17,32 @@ source ~/.profile
 
 echo 'installing git' 
 sudo apt install git -y
-git config --global user.email "erick.workspace@gmail.com"
-git config --global user.name "erickwendel"
-ssh-keygen -t rsa -C "erick.workspace@gmail.com"
-cat ~/.ssh/id_rsa.pub | pbcopy
-echo 'YOU MUST PAST YOUR SSH KERY on your git-repo' 
 
 echo 'installing vim'
 sudo apt install vim -y
+
+echo "\nWhat name do you want to use in GIT user.name?\n\nFor example, mine will be \"Erick Wendel\"\n"
+read git_config_user_name
+git config --global user.name "$git_config_user_name"
+clear 
+
+echo "\nWhat email do you want to use in GIT user.email?\n\nFor example, mine will be \"erick.workspace@gmail.com\"\n"
+read git_config_user_email
+git config --global user.email $git_config_user_email
+clear
+
+echo "Can I set VIM as your default GIT editor for you? (y/n)\n\n"
+read git_core_editor_to_vim
+if echo "$git_core_editor_to_vim" | grep -iq "^y" ;then
+  git config --global core.editor vim
+else
+  echo "\nOkay, no problem. :) Let's move on!"
+fi
+
+echo "Generating a SSH Key"
+ssh-keygen -t rsa -b 4096 -C $git_config_user_email
+ssh-add ~/.ssh/id_rsa
+pbcopy < ~/.ssh/id_rsa.pub 
 
 echo 'installing code'
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
@@ -78,7 +95,6 @@ sudo apt install fonts-firacode -y
 wget -O ~/.oh-my-zsh/themes/node.zsh-theme https://raw.githubusercontent.com/skuridin/oh-my-zsh-node-theme/master/node.zsh-theme 
 sed -i 's/.*ZSH_THEME=.*/ZSH_THEME="node"/g' ~/.zshrc
 zsh
-
 
 echo 'installing meet franz' 
 wget https://github.com/meetfranz/franz/releases/download/v5.1.0/franz_5.1.0_amd64.deb -O franz.deb
@@ -165,14 +181,9 @@ docker-compose --version
 echo 'installing aws-cli' 
 sudo apt-get install awscli -y
 aws --version
-
-# echo 'configuring fingerprint'
-# sudo apt install -y fprintd libpam-fprintd -y
-# sudo pam-auth-update
-
-# sudo add-apt-repository ppa:fingerprint/fingerprint-gui
-# sudo apt update
-# sudo apt install libbsapi policykit-1-fingerprint-gui fingerprint-gui -y
+curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb"
+sudo dpkg -i session-manager-plugin.deb
+session-manager-plugin --version
 
 echo 'installing teamviewer'
 wget https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
@@ -181,3 +192,7 @@ sudo apt install -y ./teamviewer_amd64.deb
 echo 'installing vnc-viewer'
 sudo apt-get install -y --no-install-recommends ubuntu-desktop gnome-panel gnome-settings-daemon metacity nautilus gnome-terminal
 sudo apt-get install vnc4server -y 
+
+echo 'installing fzf'
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install

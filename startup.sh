@@ -3,6 +3,11 @@ sudo apt-get update
 echo 'installing curl' 
 sudo apt install curl -y
 
+
+echo 'enabling workspaces for both screens' 
+gsettings set org.gnome.mutter workspaces-only-on-primary false
+
+echo 'installing tool to handle clipboard via CLI'
 sudo apt-get install xclip -y
 
 cat <<EOF >>  ~/.profile

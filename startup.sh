@@ -42,11 +42,7 @@ fi
 echo "Generating a SSH Key"
 ssh-keygen -t rsa -b 4096 -C $git_config_user_email
 ssh-add ~/.ssh/id_rsa
-pbcopy < ~/.ssh/id_rsa.pub
-
-ssh-keygen -t rsa -C "erick.workspace@gmail.com"
-cat ~/.ssh/id_rsa.pub | pbcopy
-read -p "Key has been generated.\nPaste it on SSH Keys on BitBucket, GitLab or Github.\n\nThen push any button to continue..." 
+pbcopy < ~/.ssh/id_rsa.pub 
 
 echo 'installing code'
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg

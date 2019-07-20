@@ -6,43 +6,49 @@ sudo apt install curl -y
 echo 'enabling workspaces for both screens' 
 gsettings set org.gnome.mutter workspaces-only-on-primary false
 
+echo 'installing zsh'
+sudo apt-get install zsh -y
+sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+chsh -s /bin/zsh
+
 echo 'installing tool to handle clipboard via CLI'
 sudo apt-get install xclip -y
 
-cat <<EOF >>  ~/.profile
-alias pbcopy='xclip -selection clipboard'
-alias pbpaste='xclip -selection clipboard -o'
-EOF
-source ~/.profile
+export alias pbcopy='xclip -selection clipboard'
+export alias pbpaste='xclip -selection clipboard -o'
+source ~/.zshrc
 
 echo 'installing git' 
 sudo apt install git -y
 
 echo 'installing vim'
 sudo apt install vim -y
+clear
 
-echo "\nWhat name do you want to use in GIT user.name?\n\nFor example, mine will be \"Erick Wendel\"\n"
+echo "What name do you want to use in GIT user.name?"
+echo "For example, mine will be \"Erick Wendel\""
 read git_config_user_name
 git config --global user.name "$git_config_user_name"
 clear 
 
-echo "\nWhat email do you want to use in GIT user.email?\n\nFor example, mine will be \"erick.workspace@gmail.com\"\n"
+echo "What email do you want to use in GIT user.email?"
+echo "For example, mine will be \"erick.workspace@gmail.com\""
 read git_config_user_email
 git config --global user.email $git_config_user_email
 clear
 
-echo "Can I set VIM as your default GIT editor for you? (y/n)\n\n"
+echo "Can I set VIM as your default GIT editor for you? (y/n)"
 read git_core_editor_to_vim
 if echo "$git_core_editor_to_vim" | grep -iq "^y" ;then
-  git config --global core.editor vim
+	git config --global core.editor vim
 else
-  echo "\nOkay, no problem. :) Let's move on!"
+	echo "Okay, no problem. :) Let's move on!"
 fi
 
 echo "Generating a SSH Key"
 ssh-keygen -t rsa -b 4096 -C $git_config_user_email
 ssh-add ~/.ssh/id_rsa
-pbcopy < ~/.ssh/id_rsa.pub 
+cat ~/.ssh/id_rsa.pub | xclip -selection clipboard
 
 echo 'installing code'
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
@@ -71,19 +77,23 @@ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 
 echo 'installing nvm' 
-sudo apt-get install build-essential libssl-dev -y
-curl https://raw.githubusercontent.com/creatioalias pbcopy='xclip -selection clipboard'
-alias pbpaste='xclip -selection clipboard -o'nix/nvm/v0.34.0/install.sh | bash
-source ~/.profile
+sh -c "$(curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash)"
+
+export NVM_DIR="$HOME/.nvm" && (
+git clone https://github.com/creationix/nvm.git "$NVM_DIR"
+cd "$NVM_DIR"
+git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
+) && \. "$NVM_DIR/nvm.sh"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+source ~/.zshrc
 nvm --version
 nvm install 12
 nvm alias default 12
 node --version
 npm --version
-
-echo 'installing zsh'
-sudo apt-get install zsh -y
-sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 
 echo 'installing autosuggestions' 
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
@@ -94,7 +104,6 @@ echo 'installing theme'
 sudo apt install fonts-firacode -y
 wget -O ~/.oh-my-zsh/themes/node.zsh-theme https://raw.githubusercontent.com/skuridin/oh-my-zsh-node-theme/master/node.zsh-theme 
 sed -i 's/.*ZSH_THEME=.*/ZSH_THEME="node"/g' ~/.zshrc
-zsh
 
 echo 'installing meet franz' 
 wget https://github.com/meetfranz/franz/releases/download/v5.1.0/franz_5.1.0_amd64.deb -O franz.deb
@@ -195,4 +204,4 @@ sudo apt-get install vnc4server -y
 
 echo 'installing fzf'
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install
+~/.fzf/install --all

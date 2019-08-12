@@ -3,27 +3,8 @@ sudo apt-get update
 echo 'installing curl' 
 sudo apt install curl -y
 
-echo 'enabling workspaces for both screens' 
-gsettings set org.gnome.mutter workspaces-only-on-primary false
-
-echo 'installing zsh'
-sudo apt-get install zsh -y
-sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-chsh -s /bin/zsh
-
-echo 'installing tool to handle clipboard via CLI'
-sudo apt-get install xclip -y
-
-export alias pbcopy='xclip -selection clipboard'
-export alias pbpaste='xclip -selection clipboard -o'
-source ~/.zshrc
-
 echo 'installing git' 
 sudo apt install git -y
-
-echo 'installing vim'
-sudo apt install vim -y
-clear
 
 echo "What name do you want to use in GIT user.name?"
 echo "For example, mine will be \"Erick Wendel\""
@@ -49,6 +30,25 @@ echo "Generating a SSH Key"
 ssh-keygen -t rsa -b 4096 -C $git_config_user_email
 ssh-add ~/.ssh/id_rsa
 cat ~/.ssh/id_rsa.pub | xclip -selection clipboard
+
+echo 'enabling workspaces for both screens' 
+gsettings set org.gnome.mutter workspaces-only-on-primary false
+
+echo 'installing zsh'
+sudo apt-get install zsh -y
+sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+chsh -s /bin/zsh
+
+echo 'installing tool to handle clipboard via CLI'
+sudo apt-get install xclip -y
+
+export alias pbcopy='xclip -selection clipboard'
+export alias pbpaste='xclip -selection clipboard -o'
+source ~/.zshrc
+
+echo 'installing vim'
+sudo apt install vim -y
+clear
 
 echo 'installing code'
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
@@ -108,13 +108,6 @@ sed -i 's/.*ZSH_THEME=.*/ZSH_THEME="node"/g' ~/.zshrc
 echo 'installing meet franz' 
 wget https://github.com/meetfranz/franz/releases/download/v5.1.0/franz_5.1.0_amd64.deb -O franz.deb
 sudo dpkg -i franz.debchristian-kohler.path-intellisense
-dbaeumer.vscode-eslint
-dracula-theme.theme-dracula
-esbenp.prettier-vscode
-foxundermoon.shell-format
-pmneo.tsimporter
-waderyan.gitblame
-yzhang.markdown-all-in-one
 sudo apt-get install -y -f 
 
 echo 'installing slack' 
@@ -122,7 +115,6 @@ wget https://downloads.slack-edge.com/linux_releases/slack-desktop-3.3.8-amd64.d
 sudo apt install ./slack-desktop-*.deb -y
 
 echo 'installing terminator'
-sudo add-apt-repository ppa:gnome-terminator
 sudo apt-get update
 sudo apt-get install terminator -y
 
@@ -205,3 +197,10 @@ sudo apt-get install vnc4server -y
 echo 'installing fzf'
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --all
+
+echo 'installing brave'
+curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
+source /etc/os-release
+echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ $UBUNTU_CODENAME main" | sudo tee /etc/apt/sources.list.d/brave-browser-release-${UBUNTU_CODENAME}.list
+sudo apt update
+sudo apt install brave-keyring brave-browser

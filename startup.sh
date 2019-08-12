@@ -204,3 +204,8 @@ source /etc/os-release
 echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ $UBUNTU_CODENAME main" | sudo tee /etc/apt/sources.list.d/brave-browser-release-${UBUNTU_CODENAME}.list
 sudo apt update
 sudo apt install brave-keyring brave-browser
+
+echo 'installing dbeaver'
+wget -c https://dbeaver.io/files/6.0.0/dbeaver-ce_6.0.0_amd64.deb
+sudo dpkg -i dbeaver-ce_6.0.0_amd64.deb
+sudo apt-get install -f

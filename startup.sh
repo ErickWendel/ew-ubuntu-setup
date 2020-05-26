@@ -61,7 +61,6 @@ sudo apt-get install code -y # or code-insiders
 echo 'installing extensions'
 code --install-extension dbaeumer.vscode-eslint
 code --install-extension christian-kohler.path-intellisense
-code --install-extension dbaeumer.vscode-eslint
 code --install-extension dracula-theme.theme-dracula
 code --install-extension esbenp.prettier-vscode
 code --install-extension foxundermoon.shell-format
@@ -71,6 +70,9 @@ code --install-extension yzhang.markdown-all-in-one
 
 echo 'installing spotify' 
 snap install spotify
+
+echo 'installing Postman' 
+snap install postman
 
 echo 'installing chrome' 
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
